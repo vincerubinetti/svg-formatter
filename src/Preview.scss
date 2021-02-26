@@ -5,10 +5,10 @@
 
   .controls {
     display: flex;
+    justify-content: center;
 
     button {
-      width: 50%;
-      height: 30px;
+      width: 33%;
     }
   }
 
@@ -29,26 +29,26 @@
     }
 
     .background {
-      .cell {
-        opacity: 0.15;
+      .marks {
+        opacity: 0.1;
       }
 
-      &[data-dark="true"] {
+      &[data-light="false"] {
         .fill {
           fill: #101010;
         }
 
-        .cell {
+        .mark {
           fill: #f0f0f0;
         }
       }
 
-      &[data-dark="false"] {
+      &[data-light="true"] {
         .fill {
           fill: #f0f0f0;
         }
 
-        .cell {
+        .mark {
           fill: #101010;
         }
       }

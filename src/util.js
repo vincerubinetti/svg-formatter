@@ -15,20 +15,21 @@ export const parse = (code) => {
   const doc = new DOMParser().parseFromString(code, "image/svg+xml");
   const svg = doc.querySelector("svg");
   const error = doc.querySelector("parsererror");
-  if (error) {
-    console.error(error.textContent);
-    return;
-  }
+  if (error) return;
   if (svg) return svg;
-  console.error("unknown error");
 };
 
 // run code through prettier
-export const prettify = (code) =>
-  prettier.format(code, {
-    parser: "html",
-    plugins: [parser],
-  });
+export const prettify = (code) => {
+  try {
+    return prettier.format(code, {
+      parser: "html",
+      plugins: [parser],
+    });
+  } catch (error) {
+    return code;
+  }
+};
 
 // svgo config options
 const config = {
@@ -88,7 +89,13 @@ const config = {
 };
 
 // run code through svgo
-const optimize = (code) => svgo.optimize(code, config).data;
+const optimize = (code) => {
+  try {
+    return svgo.optimize(code, config).data;
+  } catch (error) {
+    return code;
+  }
+};
 
 // acceptable presentation attributes
 const presentation = [
@@ -144,7 +151,15 @@ const opinionate = (code) => {
 
   // fit view box to contents
   document.body.append(svg);
-  const { x, y, width, height } = svg.getBBox();
+  let { x, y, width, height } = svg.getBBox();
+  if (width > height) {
+    y -= (width - height) / 2;
+    height = width;
+  }
+  if (height > width) {
+    x -= (height - width) / 2;
+    width = height;
+  }
   svg.remove();
   const viewBox = [x, y, width, height].map((n) => n.toFixed(2)).join(" ");
   svg.setAttribute("viewBox", viewBox);

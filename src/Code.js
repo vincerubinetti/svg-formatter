@@ -16,12 +16,10 @@ const Code = () => {
     <div className="code">
       <div className="tabs">
         <button onClick={() => setIsInput(true)}>
-          {isInput && "✔️"}
-          Input
+          {isInput && "✔️"} Input
         </button>
         <button onClick={() => setIsInput(false)}>
-          {!isInput && "✔️"}
-          Output
+          {!isInput && "✔️"} Output
         </button>
       </div>
       <AceEditor
@@ -30,7 +28,8 @@ const Code = () => {
         theme="tomorrow_night_eighties"
         value={isInput ? input : output}
         onChange={isInput ? setInput : setOutput}
-        name="input_editor"
+        name="ace_editor"
+        fontSize="14"
       />
     </div>
   );

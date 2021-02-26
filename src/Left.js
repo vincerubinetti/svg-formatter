@@ -1,9 +1,9 @@
-import Load from "./Load";
+import Upload from "./Upload";
 import Code from "./Code";
 
 const Left = () => (
   <div className="left">
-    <Load />
+    <Upload />
     <Code />
   </div>
 );

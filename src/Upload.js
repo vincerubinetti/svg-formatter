@@ -4,10 +4,9 @@ import { useContext } from "react";
 
 import { Context } from "./App";
 import { prettify } from "./util";
-import "./Load.scss";
 
-// load component
-const Load = () => {
+// upload component
+const Upload = () => {
   const { setInput } = useContext(Context);
 
   // component state
@@ -56,7 +55,7 @@ const Load = () => {
         style={{ display: "none" }}
       />
       <button
-        className="load"
+        className="upload"
         data-drag={uploadDrag}
         onClick={onUploadClick}
         onDragEnter={onUploadDragEnter}
@@ -70,4 +69,4 @@ const Load = () => {
   );
 };
 
-export default Load;
+export default Upload;

@@ -8,13 +8,15 @@ import "./Preview.scss";
 const grid = 10;
 
 const Preview = () => {
-  let [solid, setSolid] = useState(false);
-  let [dark, setDark] = useState(false);
+  let [checkered, setCheckered] = useState(true);
+  let [light, setLight] = useState(true);
   let { output } = useContext(Context);
 
   const viewBox = parse(output)?.getAttribute("viewBox") || "";
   const [x = -50, y = -50, width = 100, height = 100] = viewBox
     .split(/\s/)
+    .map((n) => n.trim())
+    .filter((n) => n)
     .map((n) => Number(n));
 
   const [left, top, right, bottom] = [
@@ -31,20 +33,26 @@ const Preview = () => {
         squares.push(
           <rect
             key={`${x}-${y}`}
-            className="cell"
+            className="mark"
             x={x * grid}
             y={y * grid}
             width={grid}
             height={grid}
-            clip-path="url(#clip)"
+            clipPath="url(#clip)"
           />
         );
     }
   }
   return (
     <div className="preview">
+      <div className="controls">
+        <button onClick={() => setLight(!light)}>{light && "✔️"} Light</button>
+        <button onClick={() => setCheckered(!checkered)}>
+          {checkered && "✔️"} Checkered
+        </button>
+      </div>
       <div className="image">
-        <div className="background" data-dark={dark}>
+        <div className="background" data-light={light}>
           <svg viewBox={`${x} ${y} ${width} ${height}`}>
             <defs>
               <clipPath id="clip">
@@ -52,21 +60,18 @@ const Preview = () => {
               </clipPath>
             </defs>
             <rect className="fill" x={x} y={y} width={width} height={height} />
-            {!solid && squares}
+            {checkered && (
+              <g className="marks">
+                <circle className="mark" cx={0} cy={0} r={grid / 4} />
+                {squares}
+              </g>
+            )}
           </svg>
         </div>
         <div
           className="foreground"
           dangerouslySetInnerHTML={{ __html: output }}
         />
-      </div>
-      <div className="controls">
-        <button onClick={() => setDark(!dark)}>
-          {dark ? "Dark" : "Light"}
-        </button>
-        <button onClick={() => setSolid(!solid)}>
-          {solid ? "Solid" : "Checkered"}
-        </button>
       </div>
     </div>
   );
