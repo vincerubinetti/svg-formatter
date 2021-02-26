@@ -1,0 +1,57 @@
+.preview {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  .controls {
+    display: flex;
+
+    button {
+      width: 50%;
+      height: 30px;
+    }
+  }
+
+  .image {
+    position: relative;
+    flex-grow: 1;
+
+    .background,
+    .foreground {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      & > svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .background {
+      .cell {
+        opacity: 0.15;
+      }
+
+      &[data-dark="true"] {
+        .fill {
+          fill: #101010;
+        }
+
+        .cell {
+          fill: #f0f0f0;
+        }
+      }
+
+      &[data-dark="false"] {
+        .fill {
+          fill: #f0f0f0;
+        }
+
+        .cell {
+          fill: #101010;
+        }
+      }
+    }
+  }
+}
